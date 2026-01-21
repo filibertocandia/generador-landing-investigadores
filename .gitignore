@@ -1,0 +1,47 @@
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Archivos de editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de node (si se agrega Node.js en el futuro)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Archivos de compilación
+dist/
+build/
+
+# Archivos temporales
+*.tmp
+*.temp
+.cache/
+
+# Archivos de configuración local
+.env.local
+.env.*.local
+
+# Archivos de prueba
+test-results/
+coverage/
+
+# Archivos multimedia grandes (opcional)
+# *.wav
+# *.mp3
+# *.mp4
+# *.png
+# *.jpg
+# *.jpeg
+
+# Archivos de backup
+*.backup
+*.bak
+*.old
