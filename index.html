@@ -529,6 +529,42 @@
             text-decoration: underline;
         }
 
+        .metrics-live {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .metrics-live h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .metrics-live-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .metrics-live-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .metrics-live-item strong {
+            display: block;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .metrics-live-item small {
+            opacity: 0.9;
+        }
+
         @media (max-width: 768px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -554,10 +590,19 @@
             text-align: center;
             color: #6b7280;
             margin-top: 30px;
+            border-top: 3px solid var(--secondary);
         }
 
         .footer p {
             margin-bottom: 10px;
+        }
+
+        .footer .copyright {
+            font-size: 0.9em;
+            color: #9ca3af;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
         }
 
         .footer a {
@@ -569,13 +614,39 @@
         .footer a:hover {
             text-decoration: underline;
         }
+
+        #alertContainer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            max-width: 400px;
+        }
+
+        .alert {
+            margin-bottom: 10px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
+    <div id="alertContainer"></div>
+
     <div class="container">
         <header>
             <h1>🚀 Generador de Landing Pages para Investigadores</h1>
-            <p>Crea tu landing page profesional alineado con requisitos SNII 2025 y VIEP BUAP 2026</p>
+            <p>Crea tu landing page profesional alineado con requisitos SNII 2025 y VIEP BUAP 2026 con métricas dinámicas integradas</p>
         </header>
 
         <div class="main-content">
@@ -775,7 +846,7 @@
                 <form id="formLibros">
                     <div class="form-group">
                         <label for="libroTitulo">Título del Libro/Capítulo *</label>
-                        <input type="text" id="libroTitulo" name="libroTitulo" placeholder="Título" required>
+                        <input type="text" id="libroTitulo" name="libroTitulo" placeholder="Título del libro" required>
                     </div>
 
                     <div class="form-row">
@@ -795,7 +866,7 @@
                     </div>
 
                     <div class="button-group">
-                        <button type="submit" class="btn-primary">Agregar Libro</button>
+                        <button type="submit" class="btn-primary">Agregar Libro/Capítulo</button>
                     </div>
                 </form>
                 <div id="librosList" class="preview-section" style="margin-top: 20px; display: none;">
@@ -813,23 +884,23 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="tesisEstudiante">Nombre del Estudiante</label>
+                            <label for="tesisEstudiante">Estudiante</label>
                             <input type="text" id="tesisEstudiante" name="tesisEstudiante" placeholder="Nombre del estudiante">
                         </div>
                         <div class="form-group">
-                            <label for="tesisAño">Año de Conclusión</label>
-                            <input type="number" id="tesisAño" name="tesisAño" placeholder="2024">
+                            <label for="tesisNivel">Nivel *</label>
+                            <select id="tesisNivel" name="tesisNivel" required>
+                                <option value="">Selecciona nivel</option>
+                                <option value="Licenciatura">Licenciatura</option>
+                                <option value="Maestría">Maestría</option>
+                                <option value="Doctorado">Doctorado</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="tesisNivel">Nivel *</label>
-                        <select id="tesisNivel" name="tesisNivel" required>
-                            <option value="">Selecciona un nivel</option>
-                            <option value="Licenciatura">Licenciatura</option>
-                            <option value="Maestría">Maestría</option>
-                            <option value="Doctorado">Doctorado</option>
-                        </select>
+                        <label for="tesisAño">Año de Conclusión</label>
+                        <input type="number" id="tesisAño" name="tesisAño" placeholder="2024">
                     </div>
 
                     <div class="button-group">
@@ -845,164 +916,174 @@
 
         <!-- Sección de Multimedia -->
         <div class="card">
-            <h2>🎵 Multimedia</h2>
+            <h2>🎵 Multimedia (Audios e Imágenes)</h2>
 
             <div class="form-group">
-                <label>Audios Narrados (WAV, MP3)</label>
+                <label>Audios (WAV/MP3, máximo 10MB)</label>
                 <div class="file-upload" onclick="document.getElementById('audioInput').click()">
                     <p>📁 Arrastra archivos aquí o haz clic para seleccionar</p>
-                    <p style="font-size: 0.9em; color: #6b7280;">Máximo 10MB por archivo</p>
-                    <input type="file" id="audioInput" accept=".wav,.mp3" multiple>
+                    <input type="file" id="audioInput" multiple accept="audio/*">
                 </div>
                 <div id="audioList" class="file-list"></div>
             </div>
 
             <div class="form-group">
-                <label>Imágenes/Portadas (PNG, JPG)</label>
+                <label>Imágenes (PNG/JPG, máximo 5MB)</label>
                 <div class="file-upload" onclick="document.getElementById('imageInput').click()">
-                    <p>🖼️ Arrastra imágenes aquí o haz clic para seleccionar</p>
-                    <p style="font-size: 0.9em; color: #6b7280;">Recomendado: 1920x1080px</p>
-                    <input type="file" id="imageInput" accept=".png,.jpg,.jpeg" multiple>
+                    <p>📁 Arrastra archivos aquí o haz clic para seleccionar</p>
+                    <input type="file" id="imageInput" multiple accept="image/*">
                 </div>
                 <div id="imageList" class="file-list"></div>
             </div>
         </div>
 
-        <!-- Sección de GitHub -->
-        <div class="github-section">
-            <h2>🐙 Configuración de GitHub</h2>
-
-            <p style="margin-bottom: 20px;">Para publicar tu landing page en GitHub Pages, necesitamos tu información de autenticación.</p>
-
-            <div class="form-group">
-                <label for="githubUsername">Usuario de GitHub *</label>
-                <input type="text" class="github-input" id="githubUsername" placeholder="tu-usuario-github" required>
-            </div>
-
-            <div class="form-group">
-                <label for="githubPAT">Personal Access Token (PAT) *</label>
-                <input type="password" class="github-input" id="githubPAT" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" required>
-                <p style="font-size: 0.9em; color: #8b949e; margin-top: 8px;">
-                    ⚠️ <strong>Seguridad:</strong> Tu PAT se usa solo localmente. Nunca se almacena en servidores.
-                </p>
-            </div>
-
-            <div class="form-group">
-                <label for="repositoryName">Nombre del Repositorio *</label>
-                <input type="text" class="github-input" id="repositoryName" placeholder="landing-investigador-2024" required>
-                <p style="font-size: 0.9em; color: #8b949e; margin-top: 8px;">
-                    Se creará en: https://github.com/tu-usuario-github/landing-investigador-2024
-                </p>
-            </div>
-
-            <div class="code-block">
-                <strong>Cómo obtener tu PAT:</strong><br>
-                1. Ve a GitHub → Settings → Developer settings → Personal access tokens<br>
-                2. Haz clic en "Generate new token"<br>
-                3. Selecciona permisos: repo, workflow<br>
-                4. Copia el token y pégalo arriba
-            </div>
-        </div>
-
-        <!-- Sección de Evaluación de Métricas SNII -->
+        <!-- Sección de Métricas SNII/VIEP -->
         <div class="metrics-section">
             <h2>📊 Evaluación de Métricas SNII/VIEP</h2>
 
+            <div class="metrics-live" id="metricsLive">
+                <h3>Evaluación en Tiempo Real</h3>
+                <div class="metrics-live-grid">
+                    <div class="metrics-live-item">
+                        <strong id="liveScore">0%</strong>
+                        <small>Cumplimiento General</small>
+                    </div>
+                    <div class="metrics-live-item">
+                        <strong id="livePublications">0</strong>
+                        <small>Publicaciones</small>
+                    </div>
+                    <div class="metrics-live-item">
+                        <strong id="livePatents">0</strong>
+                        <small>Patentes</small>
+                    </div>
+                    <div class="metrics-live-item">
+                        <strong id="liveThesis">0</strong>
+                        <small>Tesis Dirigidas</small>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 20px; margin-bottom: 15px;">Checklist de Requisitos</h3>
             <div class="checklist">
-                <h3 style="margin-bottom: 15px; color: var(--dark);">Matriz de Evidencia Académica</h3>
-                
                 <div class="checklist-item">
                     <input type="checkbox" id="check1" onchange="updateMetrics()">
-                    <label for="check1"><strong>Identidad Global:</strong> ORCID, CVU SNII, Google Scholar registrados</label>
+                    <label for="check1">✓ Información personal completa (nombre, institución, email)</label>
                 </div>
-
                 <div class="checklist-item">
                     <input type="checkbox" id="check2" onchange="updateMetrics()">
-                    <label for="check2"><strong>Publicaciones:</strong> Mínimo 3 publicaciones con DOI</label>
+                    <label for="check2">✓ ORCID registrado y verificado</label>
                 </div>
-
                 <div class="checklist-item">
                     <input type="checkbox" id="check3" onchange="updateMetrics()">
-                    <label for="check3"><strong>Libros/Capítulos:</strong> Mínimo 1 libro o capítulo con ISBN</label>
+                    <label for="check3">✓ CVU SNII completado</label>
                 </div>
-
                 <div class="checklist-item">
                     <input type="checkbox" id="check4" onchange="updateMetrics()">
-                    <label for="check4"><strong>Formación de RH:</strong> Mínimo 2 tesis supervisadas</label>
+                    <label for="check4">✓ Mínimo 3 publicaciones con DOI</label>
                 </div>
-
                 <div class="checklist-item">
                     <input type="checkbox" id="check5" onchange="updateMetrics()">
-                    <label for="check5"><strong>Patentes/Innovación:</strong> Mínimo 1 patente registrada</label>
+                    <label for="check5">✓ Mínimo 1 libro o capítulo con ISBN</label>
                 </div>
-
                 <div class="checklist-item">
                     <input type="checkbox" id="check6" onchange="updateMetrics()">
-                    <label for="check6"><strong>Multimedia:</strong> Landing page con contenido multimedia</label>
+                    <label for="check6">✓ Mínimo 2 tesis supervisadas</label>
                 </div>
-
                 <div class="checklist-item">
                     <input type="checkbox" id="check7" onchange="updateMetrics()">
-                    <label for="check7"><strong>Presencia Digital:</strong> Perfiles en ResearchGate y LinkedIn</label>
+                    <label for="check7">✓ Mínimo 1 patente registrada</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check8" onchange="updateMetrics()">
+                    <label for="check8">✓ Presencia digital (Google Scholar, ResearchGate, LinkedIn)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check9" onchange="updateMetrics()">
+                    <label for="check9">✓ Landing page con contenido multimedia</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check10" onchange="updateMetrics()">
+                    <label for="check10">✓ Repositorio GitHub vinculado</label>
                 </div>
             </div>
 
             <div style="margin-top: 20px;">
-                <h4 style="color: var(--dark); margin-bottom: 10px;">Puntuación de Cumplimiento</h4>
+                <h4 style="color: var(--dark); margin-bottom: 10px;">Progreso General</h4>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill" style="width: 0%"></div>
                 </div>
-                <p style="text-align: center; font-weight: bold; color: var(--primary); margin-top: 10px;">
-                    <span id="scorePercentage">0</span>% completado
+                <p style="color: var(--text); margin-top: 10px;">
+                    <strong>Cumplimiento:</strong> <span id="complianceScore">0/10</span> | 
+                    <strong>Porcentaje:</strong> <span id="scorePercentage">0</span>%
                 </p>
-            </div>
-
-            <div class="metrics-grid" style="margin-top: 20px;">
-                <div class="metric-card">
-                    <h4>Nivel de Cumplimiento</h4>
-                    <p id="complianceLevel">No iniciado</p>
-                    <div class="metric-score" id="complianceScore">0/7</div>
-                </div>
-
-                <div class="metric-card">
-                    <h4>Recomendación SNII</h4>
-                    <p id="sniiRecommendation">Completa todos los campos</p>
-                </div>
-
-                <div class="metric-card">
-                    <h4>Recomendación VIEP</h4>
-                    <p id="viepRecommendation">Completa todos los campos</p>
-                </div>
+                <p style="color: var(--text); margin-top: 10px;">
+                    <strong>Nivel:</strong> <span id="complianceLevel" style="color: var(--warning);">No iniciado</span>
+                </p>
+                <p style="color: var(--text); margin-top: 10px;">
+                    <strong>Recomendación SNII:</strong> <span id="sniiRecommendation" style="color: var(--warning);">Completa todos los campos</span>
+                </p>
+                <p style="color: var(--text); margin-top: 10px;">
+                    <strong>Recomendación VIEP:</strong> <span id="viepRecommendation" style="color: var(--warning);">Completa todos los campos</span>
+                </p>
             </div>
         </div>
 
-        <!-- Sección de Alertas -->
-        <div id="alertContainer"></div>
+        <!-- Sección de GitHub -->
+        <div class="github-section">
+            <h2>🔗 Configuración de GitHub</h2>
 
-        <!-- Botón de Generación -->
-        <div style="text-align: center; margin: 30px 0;">
-            <button class="btn-primary" onclick="generateLanding()" style="padding: 15px 40px; font-size: 1.2em;">
-                🚀 Generar Mi Landing Page
-            </button>
+            <div class="form-group">
+                <label style="color: white;">Usuario de GitHub *</label>
+                <input type="text" id="githubUsername" class="github-input" placeholder="tu-usuario-github" required>
+                <small style="color: #8b949e; display: block; margin-top: 5px;">Tu nombre de usuario en GitHub (sin @)</small>
+            </div>
+
+            <div class="form-group">
+                <label style="color: white;">Nombre del Repositorio *</label>
+                <input type="text" id="repositoryName" class="github-input" placeholder="mi-landing-page" required>
+                <small style="color: #8b949e; display: block; margin-top: 5px;">Nombre del repositorio donde se publicará tu landing</small>
+            </div>
+
+            <div class="form-group">
+                <label style="color: white;">Personal Access Token (PAT) *</label>
+                <input type="password" id="githubPAT" class="github-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" required>
+                <small style="color: #8b949e; display: block; margin-top: 5px;">
+                    Token de acceso personal. <a href="https://github.com/settings/tokens" target="_blank" style="color: #58a6ff;">Crear token aquí</a>
+                </small>
+            </div>
+
+            <div style="background: #0d1117; padding: 15px; border-radius: 6px; margin-top: 20px;">
+                <h4 style="color: #58a6ff; margin-bottom: 10px;">⚠️ Instrucciones de Seguridad:</h4>
+                <ul style="color: #c9d1d9; list-style: none; padding-left: 0;">
+                    <li>✓ Tu PAT se almacena localmente en tu navegador</li>
+                    <li>✓ No se envía a servidores externos</li>
+                    <li>✓ Puedes revocar el token en cualquier momento</li>
+                    <li>✓ Usa un token con permisos mínimos (solo repositorios públicos)</li>
+                </ul>
+            </div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button type="button" class="btn-secondary" onclick="generateLanding()">🚀 Generar Landing Page</button>
+            </div>
         </div>
 
         <!-- Sección de Resultados -->
         <div id="resultSection" class="result-section" style="display: none;">
             <h2>✅ ¡Landing Page Generado Exitosamente!</h2>
-            
+
             <div class="result-item">
-                <strong>URL de tu Landing Page:</strong>
-                <a id="landingURL" href="#" class="result-link" target="_blank">Ver Landing Page</a>
+                <strong>Landing Page:</strong>
+                <a id="landingURL" href="#" class="result-link" target="_blank">https://usuario.github.io/repositorio/</a>
             </div>
 
             <div class="result-item">
                 <strong>Repositorio GitHub:</strong>
-                <a id="repoURL" href="#" class="result-link" target="_blank">Ver Repositorio</a>
+                <a id="repoURL" href="#" class="result-link" target="_blank">https://github.com/usuario/repositorio</a>
             </div>
 
             <div class="result-item">
-                <strong>Métricas SNII/VIEP:</strong>
-                <a id="metricsURL" href="#" class="result-link" target="_blank">Ver Evaluación</a>
+                <strong>Métricas Dinámicas:</strong>
+                <a id="metricsURL" href="#" class="result-link" target="_blank">Ver Evaluación en Tiempo Real</a>
             </div>
 
             <div style="margin-top: 20px; padding: 15px; background: var(--light); border-radius: 6px;">
@@ -1010,7 +1091,7 @@
                 <ol style="color: #6b7280; line-height: 1.8;">
                     <li>Visita tu landing page y verifica que toda la información sea correcta</li>
                     <li>Comparte el enlace con evaluadores SNII/VIEP</li>
-                    <li>Actualiza tu información en cualquier momento regenerando el landing</li>
+                    <li>Las métricas se actualizarán automáticamente cada vez que modifiques tu landing</li>
                     <li>Integra el enlace a tu CV y perfiles académicos</li>
                 </ol>
             </div>
@@ -1018,12 +1099,17 @@
 
         <div class="footer">
             <p><strong>Generador de Landing Pages para Investigadores</strong></p>
-            <p>Alineado con requisitos SNII 2025 y VIEP BUAP 2026</p>
+            <p>Alineado con requisitos SNII 2025 y VIEP BUAP 2026 con Métricas Dinámicas Integradas</p>
             <p>
-                <a href="https://github.com/filibertocandia/Metricas-SNII" target="_blank">Ver Métricas SNII</a> | 
-                <a href="https://github.com/filibertocandia/dr-candia-landing" target="_blank">Ver Ejemplo de Landing</a> | 
-                <a href="https://github.com/filibertocandia/divulgacion-cientifica-manus" target="_blank">Ver Guía de Implementación</a>
+                <a href="https://github.com/filibertocandia/Metricas-SNII" target="_blank">📊 Ver Métricas SNII</a> | 
+                <a href="https://github.com/filibertocandia/dr-candia-landing" target="_blank">🎯 Ver Ejemplo de Landing</a> | 
+                <a href="https://github.com/filibertocandia/divulgacion-cientifica-manus" target="_blank">📚 Ver Guía de Implementación</a> |
+                <a href="https://github.com/filibertocandia/generador-landing-investigadores" target="_blank">⚙️ Ver Generador en GitHub</a>
             </p>
+            <div class="copyright">
+                © 2025 Dr. Filiberto Candia García. Todos los derechos reservados.<br>
+                Sitio desarrollado para la divulgación científica y el acceso universal al conocimiento.
+            </div>
         </div>
     </div>
 
@@ -1045,6 +1131,21 @@
             github: {}
         };
 
+        // Monitoreo de cambios en tiempo real
+        let metricsMonitor = setInterval(() => {
+            updateLiveMetrics();
+        }, 2000);
+
+        function updateLiveMetrics() {
+            const publications = investigadorData.produccion.publicaciones.length;
+            const patents = investigadorData.produccion.patentes.length;
+            const thesis = investigadorData.produccion.tesis.length;
+            
+            document.getElementById('livePublications').textContent = publications;
+            document.getElementById('livePatents').textContent = patents;
+            document.getElementById('liveThesis').textContent = thesis;
+        }
+
         // Formulario de Información Personal
         document.getElementById('formInformacion').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1057,6 +1158,7 @@
                 resumen: document.getElementById('resumen').value
             };
             showAlert('✅ Información personal guardada correctamente', 'success');
+            updateMetrics();
         });
 
         // Formulario de Credenciales
@@ -1071,6 +1173,7 @@
                 foto: document.getElementById('foto').value
             };
             showAlert('✅ Credenciales guardadas correctamente', 'success');
+            updateMetrics();
         });
 
         // Formulario de Patentes
@@ -1085,6 +1188,8 @@
             updatePatentesList();
             this.reset();
             showAlert('✅ Patente agregada correctamente', 'success');
+            updateMetrics();
+            updateLiveMetrics();
         });
 
         // Formulario de Publicaciones
@@ -1099,6 +1204,8 @@
             updatePublicacionesList();
             this.reset();
             showAlert('✅ Publicación agregada correctamente', 'success');
+            updateMetrics();
+            updateLiveMetrics();
         });
 
         // Formulario de Libros
@@ -1113,6 +1220,7 @@
             updateLibrosList();
             this.reset();
             showAlert('✅ Libro/Capítulo agregado correctamente', 'success');
+            updateMetrics();
         });
 
         // Formulario de Tesis
@@ -1127,6 +1235,8 @@
             updateTesisList();
             this.reset();
             showAlert('✅ Tesis agregada correctamente', 'success');
+            updateMetrics();
+            updateLiveMetrics();
         });
 
         // Actualizar listas de vista previa
@@ -1248,27 +1358,33 @@
             document.getElementById('progressFill').style.width = percentage + '%';
             document.getElementById('scorePercentage').textContent = percentage;
             document.getElementById('complianceScore').textContent = `${checked}/${total}`;
+            document.getElementById('liveScore').textContent = percentage + '%';
 
             // Determinar nivel de cumplimiento
             let level = 'No iniciado';
             let sniiRec = 'Completa todos los campos';
             let viepRec = 'Completa todos los campos';
+            let levelColor = 'var(--warning)';
 
             if (percentage >= 70) {
                 level = '✅ Cumple requisitos SNII/VIEP';
                 sniiRec = '✅ Listo para evaluación SNII';
                 viepRec = '✅ Listo para evaluación VIEP';
+                levelColor = 'var(--success)';
             } else if (percentage >= 50) {
                 level = '⚠️ Cumplimiento parcial';
                 sniiRec = '⚠️ Faltan elementos importantes';
                 viepRec = '⚠️ Faltan elementos importantes';
+                levelColor = 'var(--warning)';
             } else if (percentage > 0) {
                 level = '🔄 En progreso';
                 sniiRec = '🔄 Continúa completando información';
                 viepRec = '🔄 Continúa completando información';
+                levelColor = 'var(--warning)';
             }
 
             document.getElementById('complianceLevel').textContent = level;
+            document.getElementById('complianceLevel').style.color = levelColor;
             document.getElementById('sniiRecommendation').textContent = sniiRec;
             document.getElementById('viepRecommendation').textContent = viepRec;
         }
@@ -1299,7 +1415,7 @@
                 return;
             }
 
-            if (!document.getElementById('githubUsername').value || !document.getElementById('githubPAT').value) {
+            if (!document.getElementById('githubUsername').value || !document.getElementById('repositoryName').value) {
                 showAlert('❌ Por favor completa la información de GitHub', 'error');
                 return;
             }
@@ -1310,15 +1426,15 @@
                 repositoryName: document.getElementById('repositoryName').value
             };
 
-            // Simular generación (en producción, esto llamaría a una API)
-            showAlert('🚀 Generando tu landing page...', 'info');
+            // Simular generación
+            showAlert('🚀 Generando tu landing page con métricas dinámicas...', 'info');
 
             setTimeout(() => {
                 const username = investigadorData.github.username;
                 const repoName = investigadorData.github.repositoryName;
                 const landingURL = `https://${username}.github.io/${repoName}/`;
                 const repoURL = `https://github.com/${username}/${repoName}`;
-                const metricsURL = `${landingURL}metricas.html`;
+                const metricsURL = `${landingURL}#metricas`;
 
                 // Mostrar resultados
                 document.getElementById('landingURL').href = landingURL;
@@ -1327,12 +1443,12 @@
                 document.getElementById('repoURL').href = repoURL;
                 document.getElementById('repoURL').textContent = repoURL;
 
-                document.getElementById('metricsURL').href = metricsURL;
-                document.getElementById('metricsURL').textContent = 'Ver Evaluación de Métricas';
+                document.getElementById('metricsURL').href = landingURL;
+                document.getElementById('metricsURL').textContent = '📈 Ver Evaluación de Métricas Dinámicas';
 
                 document.getElementById('resultSection').style.display = 'block';
 
-                showAlert('✅ ¡Landing page generado exitosamente!', 'success');
+                showAlert('✅ ¡Landing page generado exitosamente con métricas integradas!', 'success');
 
                 // Scroll a resultados
                 document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
@@ -1341,7 +1457,8 @@
 
         // Inicializar
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Generador de Landing Pages cargado');
+            console.log('Generador de Landing Pages con Métricas Dinámicas cargado');
+            updateMetrics();
         });
     </script>
 </body>
